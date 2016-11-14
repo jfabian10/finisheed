@@ -137,7 +137,7 @@ class MovieTableViewController: UITableViewController{
                 print("can't process")
             }
             let movieNameEntered: String = controller.movieTitleLabel.text!
-            let movieCastEntered: String = controller.movieCastLabel.text!
+            var movieCastEntered = ""
             let movieYouTubeURLEntered: String = controller.youTubeLabel.text!
             var movieRatingEntered = ""
             
