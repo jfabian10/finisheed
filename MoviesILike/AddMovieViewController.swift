@@ -24,7 +24,7 @@ class AddMovieViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet var movieRatingLabel: UISegmentedControl!
 
     
-    var dataToPass = [String]() ///data to pass upstream
+   // var dataToPass = [String]() ///data to pass upstream
     var dataPassed = [String]() ///movie genre
     
     var activeTextField: UITextField?
