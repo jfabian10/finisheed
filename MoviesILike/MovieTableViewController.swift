@@ -98,7 +98,7 @@ class MovieTableViewController: UITableViewController{
     
     ///when user taps cell
       override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as UITableViewCell
+        _ = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as UITableViewCell
         let sectionNumber = (indexPath as NSIndexPath).section
         let rowNumber = (indexPath as NSIndexPath).row
         let givenMovieGenre = movieGenreList[sectionNumber]
@@ -137,7 +137,7 @@ class MovieTableViewController: UITableViewController{
                 print("can't process")
             }
             let movieNameEntered: String = controller.movieTitleLabel.text!
-            var movieCastEntered = ""
+            let movieCastEntered = ""
             let movieYouTubeURLEntered: String = controller.youTubeLabel.text!
             var movieRatingEntered = ""
             
