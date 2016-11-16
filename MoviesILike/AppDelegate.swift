@@ -13,8 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var dict_Movie_Genres: NSMutableDictionary = NSMutableDictionary()
-    //var dict_movieGenre = [String: AnyObject]()
-    
+    var dict_Theaters: NSMutableDictionary = NSMutableDictionary()
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -25,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Add the plist filename to the document directory path to obtain an absolute path to the plist filename
         
         let plistFilePathInDocumentDirectory = documentDirectoryPath + "/MyFavoriteMovies.plist"
+        
+        let plistTheatersFilePathInDocumentDirectory = documentDirectoryPath + "/MyFavoriteTheaters.plist"
         /*
          
          NSMutableDictionary manages an *unordered* collection of mutable (modifiable) key-value pairs.
@@ -33,14 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          */
         
         let dictionaryFromFile: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistFilePathInDocumentDirectory)
+
+        let dictionaryTheatersFromFile: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistTheatersFilePathInDocumentDirectory)
         
         if let dictionaryFromFileInDocumentDirectory = dictionaryFromFile {
-            // MyFavoriteMovies.plist exists in the Document directory
-            
             dict_Movie_Genres = dictionaryFromFileInDocumentDirectory
-            
-            
-            
         } else {
             
             //  MyFavoriteMovies.plist does not exist in the Document directory; Read it from the main bundle.
@@ -55,18 +53,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Store the object reference into the instance variable
             
             dict_Movie_Genres = dictionaryFromFileInMainBundle!
-            
         }
         
-              return true
+        if let dictionaryFromFileInDocumentDirectory = dictionaryTheatersFromFile {
+            dict_Theaters = dictionaryFromFileInDocumentDirectory
+        } else {
+            let theaterPlistPath = Bundle.main.path(forResource: "MyFavoriteTheaters", ofType: "plist")
+            let dictTheaterFromFileInBundle: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: theaterPlistPath!)
+            
+            dict_Theaters = dictTheaterFromFileInBundle!
+        }
+        
+        return true
     }
     
-    
-    
-
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        /*
+         "UIApplicationWillResignActiveNotification is posted when the app is no longer active and loses focus.
+         An app is active when it is receiving events. An active app can be said to have focus.
+         It gains focus after being launched, loses focus when an overlay window pops up or when the device is
+         locked, and gains focus when the device is unlocked." [Apple]
+         */
+        
+        let plistFilePathInMainBundle = Bundle.main.path(forResource: "MyFavoriteMovies", ofType: "plist")
+
+        // Write the NSMutableDictionary to the file in the Document directory
+        dict_Movie_Genres.write(toFile: plistFilePathInMainBundle!, atomically: true)
+        
+        let theaterPlistPath = Bundle.main.path(forResource: "MyFavoriteTheaters", ofType: "plist")
+        
+        dict_Theaters.write(toFile: theaterPlistPath!, atomically: true)
+        /*
+         The flag "atomically" specifies whether the file should be written atomically or not.
+         
+         If flag atomically is TRUE, the dictionary is first written to an auxiliary file, and
+         then the auxiliary file is renamed to path plistFilePathInDocumentDirectory.
+         
+         If flag atomically is FALSE, the dictionary is written directly to path plistFilePathInDocumentDirectory.
+         This is a bad idea since the file can be corrupted if the system crashes during writing.
+         
+         The TRUE option guarantees that the file will not be corrupted even if the system crashes during writing.
+         */
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -85,7 +112,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 

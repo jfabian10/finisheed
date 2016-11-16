@@ -149,64 +149,111 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DUR-7y-uEv">
-                                <frame key="frameInset" minX="11" minY="72" height="216" maxX="12"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="hTu-nJ-U5W" id="w7k-hm-8Sa"/>
-                                    <outlet property="delegate" destination="hTu-nJ-U5W" id="amM-gk-NF3"/>
-                                </connections>
-                            </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Selected Movie Theater on Map of Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKj-gZ-F1w">
-                                <frame key="frameInset" minX="11" minY="303" width="352" height="14.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="D6z-9M-1pC">
-                                <frame key="frameInset" minX="11" minY="325.5" width="352" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="Roadmap"/>
-                                    <segment title="Satellite"/>
-                                    <segment title="Hybrid"/>
-                                    <segment title="Terrain"/>
-                                </segments>
-                                <connections>
-                                    <action selector="setMapType:" destination="hTu-nJ-U5W" eventType="valueChanged" id="Wbv-he-Cuq"/>
-                                </connections>
-                            </segmentedControl>
-                            <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter location, e.g., Roanoke, VA" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CtL-Qn-Qpe">
-                                <frame key="frameInset" minX="11" minY="427" width="352" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="List Theaters and Movies in Location:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olj-88-Kn8">
-                                <frame key="frameInset" minX="11" minY="404.5" width="352" height="14.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MjY-Dc-paQ">
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKf-Ah-mJm" userLabel="Content View">
+                                        <subviews>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DUR-7y-uEv">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="359" id="bTW-uf-Eod"/>
+                                                    <constraint firstAttribute="height" constant="225" id="elE-eE-ogw"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="hTu-nJ-U5W" id="w7k-hm-8Sa"/>
+                                                    <outlet property="delegate" destination="hTu-nJ-U5W" id="amM-gk-NF3"/>
+                                                </connections>
+                                            </pickerView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Selected Movie Theater on Map of Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKj-gZ-F1w">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14.5" id="fvE-24-1uW"/>
+                                                    <constraint firstAttribute="width" constant="352" id="lCb-gS-iRS"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="D6z-9M-1pC">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="28" id="A0P-W9-vQu"/>
+                                                    <constraint firstAttribute="width" constant="352" id="Eeg-Rg-cpn"/>
+                                                </constraints>
+                                                <segments>
+                                                    <segment title="Roadmap"/>
+                                                    <segment title="Satellite"/>
+                                                    <segment title="Hybrid"/>
+                                                    <segment title="Terrain"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="setMapType:" destination="hTu-nJ-U5W" eventType="valueChanged" id="Wbv-he-Cuq"/>
+                                                </connections>
+                                            </segmentedControl>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List Theaters and Movies in Location:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="olj-88-Kn8">
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14.5" id="3B4-Rm-h6N"/>
+                                                    <constraint firstAttribute="width" constant="352" id="RUW-wV-zo9"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter location, e.g., Roanoke, VA" textAlignment="natural" minimumFontSize="13" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CtL-Qn-Qpe">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="352" id="NyR-Yp-PZ9"/>
+                                                    <constraint firstAttribute="height" constant="30" id="ROq-ib-FXy"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="DUR-7y-uEv" firstAttribute="top" secondItem="mKf-Ah-mJm" secondAttribute="top" constant="53" id="DzH-ow-fyh"/>
+                                            <constraint firstItem="NKj-gZ-F1w" firstAttribute="top" secondItem="DUR-7y-uEv" secondAttribute="bottom" constant="43" id="Lyp-Gz-64d"/>
+                                            <constraint firstItem="D6z-9M-1pC" firstAttribute="top" secondItem="NKj-gZ-F1w" secondAttribute="bottom" constant="7.5" id="RTv-9U-H4k"/>
+                                            <constraint firstItem="olj-88-Kn8" firstAttribute="centerX" secondItem="mKf-Ah-mJm" secondAttribute="centerX" id="Sez-ik-a2g"/>
+                                            <constraint firstItem="olj-88-Kn8" firstAttribute="top" secondItem="D6z-9M-1pC" secondAttribute="bottom" constant="58" id="TYJ-ih-aCt"/>
+                                            <constraint firstItem="NKj-gZ-F1w" firstAttribute="centerX" secondItem="mKf-Ah-mJm" secondAttribute="centerX" id="a3j-bs-VbH"/>
+                                            <constraint firstItem="CtL-Qn-Qpe" firstAttribute="centerX" secondItem="mKf-Ah-mJm" secondAttribute="centerX" id="dFu-Nm-yRp"/>
+                                            <constraint firstItem="DUR-7y-uEv" firstAttribute="centerX" secondItem="mKf-Ah-mJm" secondAttribute="centerX" id="ea6-og-atb"/>
+                                            <constraint firstItem="D6z-9M-1pC" firstAttribute="centerX" secondItem="mKf-Ah-mJm" secondAttribute="centerX" id="lfH-gI-5ov"/>
+                                            <constraint firstItem="CtL-Qn-Qpe" firstAttribute="top" secondItem="olj-88-Kn8" secondAttribute="bottom" constant="7.5" id="pnB-Bb-amD"/>
+                                            <constraint firstAttribute="bottom" secondItem="CtL-Qn-Qpe" secondAttribute="bottom" constant="419" id="v2s-9c-g3t"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="mKf-Ah-mJm" secondAttribute="bottom" id="IEU-lg-Srp"/>
+                                    <constraint firstItem="mKf-Ah-mJm" firstAttribute="leading" secondItem="MjY-Dc-paQ" secondAttribute="leading" id="Leo-rn-Gpx"/>
+                                    <constraint firstItem="mKf-Ah-mJm" firstAttribute="top" secondItem="MjY-Dc-paQ" secondAttribute="top" id="WyP-uv-gKN"/>
+                                    <constraint firstItem="mKf-Ah-mJm" firstAttribute="width" secondItem="MjY-Dc-paQ" secondAttribute="width" id="s9R-ay-1tg"/>
+                                    <constraint firstAttribute="trailing" secondItem="mKf-Ah-mJm" secondAttribute="trailing" id="zPu-qE-D9S"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="MjY-Dc-paQ" firstAttribute="leading" secondItem="77I-c8-p3d" secondAttribute="leading" id="6WR-7j-jm1"/>
+                            <constraint firstItem="MjY-Dc-paQ" firstAttribute="top" secondItem="77I-c8-p3d" secondAttribute="top" id="KPE-2e-YpV"/>
+                            <constraint firstAttribute="trailing" secondItem="MjY-Dc-paQ" secondAttribute="trailing" id="OdR-Oe-Udo"/>
+                            <constraint firstAttribute="bottom" secondItem="MjY-Dc-paQ" secondAttribute="bottom" id="ydj-xp-4ej"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Theaters" id="ebO-CJ-sei"/>
                     <connections>
                         <outlet property="pickerView" destination="DUR-7y-uEv" id="YSY-17-wGE"/>
                         <outlet property="theaterMapTypeSegmentedControl" destination="D6z-9M-1pC" id="KHg-V6-ghj"/>
+                        <outlet property="theatersLocationInput" destination="CtL-Qn-Qpe" id="ZKy-lC-gm5"/>
                         <segue destination="2Yn-Uh-goN" kind="show" identifier="webViewTheater" id="caU-SR-Wsm"/>
                         <segue destination="ver-H2-euz" kind="show" identifier="AddTheater" id="yHq-pl-crc"/>
+                        <segue destination="tA0-wa-jzw" kind="show" identifier="EditTheater" id="HPJ-Vc-k8o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pff-HL-VqF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="965.60000000000002" y="617.54122938530736"/>
         </scene>
-        <!--Add Theater View Controller-->
+        <!--Add Theater-->
         <scene sceneID="WnY-xA-1Pp">
             <objects>
                 <viewController id="ver-H2-euz" customClass="AddTheaterViewController" customModule="MoviesILike" customModuleProvider="target" sceneMemberID="viewController">
@@ -218,47 +265,171 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie Theater Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTE-Aa-MP6">
-                                <frame key="frameInset" minX="16" minY="110" width="343" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Theater Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTE-Aa-MP6">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="eie-2x-J2S"/>
+                                    <constraint firstAttribute="height" constant="21" id="rDc-sB-xy1"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie Theater Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDN-Bq-7wI">
-                                <frame key="frameInset" minX="16" minY="221" width="343" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Theater Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDN-Bq-7wI">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="GOt-PI-AGG"/>
+                                    <constraint firstAttribute="width" constant="343" id="gW3-BB-XKM"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter movie theater name here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SSs-EK-xd4">
-                                <frame key="frameInset" minX="16" minY="136" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter movie theater name here" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="SSs-EK-xd4">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="PZZ-Xc-GUm"/>
+                                    <constraint firstAttribute="height" constant="30" id="fgg-GE-ylk"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="keyboardDone:" destination="ver-H2-euz" eventType="editingDidEndOnExit" id="tJl-Nr-uHq"/>
+                                </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter movie theater address here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vlt-Hw-EhO">
-                                <frame key="frameInset" minX="16" minY="250" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter movie theater address here" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="vlt-Hw-EhO">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="Ije-k2-bvh"/>
+                                    <constraint firstAttribute="height" constant="30" id="bSg-s0-KJo"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="keyboardDone:" destination="ver-H2-euz" eventType="editingDidEndOnExit" id="3ug-Da-jSl"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="qDN-Bq-7wI" firstAttribute="top" secondItem="SSs-EK-xd4" secondAttribute="bottom" constant="55" id="5XM-hB-EcX"/>
+                            <constraint firstItem="JTE-Aa-MP6" firstAttribute="centerX" secondItem="JXr-8A-a6R" secondAttribute="centerX" id="AI6-rT-KWb"/>
+                            <constraint firstItem="SSs-EK-xd4" firstAttribute="top" secondItem="JTE-Aa-MP6" secondAttribute="bottom" constant="5" id="J3H-vR-FGN"/>
+                            <constraint firstItem="vlt-Hw-EhO" firstAttribute="centerX" secondItem="JXr-8A-a6R" secondAttribute="centerX" id="NAU-U7-gLm"/>
+                            <constraint firstItem="JTE-Aa-MP6" firstAttribute="top" secondItem="3i9-I0-DC1" secondAttribute="bottom" constant="46" id="XeZ-fZ-3yP"/>
+                            <constraint firstItem="SSs-EK-xd4" firstAttribute="centerX" secondItem="JXr-8A-a6R" secondAttribute="centerX" id="aPc-dm-hgx"/>
+                            <constraint firstItem="qDN-Bq-7wI" firstAttribute="centerX" secondItem="JXr-8A-a6R" secondAttribute="centerX" id="i8Z-q4-48N"/>
+                            <constraint firstItem="vlt-Hw-EhO" firstAttribute="top" secondItem="qDN-Bq-7wI" secondAttribute="bottom" constant="8" id="lxM-pP-ekX"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Theater" id="cwD-DE-LoP">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="7E7-F5-Xpx">
+                            <connections>
+                                <segue destination="DPj-Ym-pcv" kind="unwind" identifier="AddTheater-Save" unwindAction="unwindToMyTheatersViewControllerWithSegue:" id="K2G-mI-BJZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="theaterAddressTextField" destination="vlt-Hw-EhO" id="SPm-xS-9VW"/>
                         <outlet property="theaterNameTextField" destination="SSs-EK-xd4" id="YzF-GI-HQO"/>
-                        <segue destination="DPj-Ym-pcv" kind="unwind" identifier="unwindToTheaters" unwindAction="unwindToTheatersWithSegue:" id="Tiv-Qo-TWD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnd-Ye-BX0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="DPj-Ym-pcv" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="965.60000000000002" y="1460.4197901049477"/>
+            <point key="canvasLocation" x="966" y="1570"/>
+        </scene>
+        <!--Edit Theater-->
+        <scene sceneID="YhK-7d-f5z">
+            <objects>
+                <viewController id="tA0-wa-jzw" customClass="EditTheaterViewController" customModule="MoviesILike" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kcm-H2-ROZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="geb-Jo-Bln"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="h9S-PH-hIo">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Theater Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PWb-Iv-dYe">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="SOe-cF-oNb"/>
+                                    <constraint firstAttribute="width" constant="343" id="l9S-JP-zLm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Theater Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zCy-9h-zRd">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="hmf-MI-nPw"/>
+                                    <constraint firstAttribute="width" constant="343" id="zJ2-C5-Z58"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="rC0-2W-Q92">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="343" id="3fD-rP-dkd"/>
+                                    <constraint firstAttribute="height" constant="30" id="B1Y-xM-llk"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="3IZ-GD-jSb">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3b5-zZ-0Th"/>
+                                    <constraint firstAttribute="width" constant="343" id="7PY-uU-bb0"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BtX-dF-loa">
+                                <color key="backgroundColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="7bX-gh-F6q"/>
+                                    <constraint firstAttribute="height" constant="30" id="Bn7-oG-Ur7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Delete">
+                                    <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <segue destination="rXe-A3-tAn" kind="unwind" identifier="DeleteTheater" unwindAction="unwindToMyTheatersViewControllerWithSegue:" id="zvt-cQ-9zv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="3IZ-GD-jSb" firstAttribute="centerX" secondItem="h9S-PH-hIo" secondAttribute="centerX" id="2h3-1i-DLo"/>
+                            <constraint firstItem="rC0-2W-Q92" firstAttribute="centerX" secondItem="h9S-PH-hIo" secondAttribute="centerX" id="Iuc-o8-ENh"/>
+                            <constraint firstItem="rC0-2W-Q92" firstAttribute="top" secondItem="PWb-Iv-dYe" secondAttribute="bottom" constant="8" id="IzO-nu-vUm"/>
+                            <constraint firstItem="3IZ-GD-jSb" firstAttribute="top" secondItem="zCy-9h-zRd" secondAttribute="bottom" constant="8" id="OR3-Rp-aN5"/>
+                            <constraint firstItem="zCy-9h-zRd" firstAttribute="centerX" secondItem="h9S-PH-hIo" secondAttribute="centerX" id="UwQ-mp-9tu"/>
+                            <constraint firstItem="PWb-Iv-dYe" firstAttribute="top" secondItem="kcm-H2-ROZ" secondAttribute="bottom" constant="55" id="Y8U-Ke-pZm"/>
+                            <constraint firstItem="BtX-dF-loa" firstAttribute="top" secondItem="3IZ-GD-jSb" secondAttribute="bottom" constant="45" id="isO-6x-zig"/>
+                            <constraint firstItem="BtX-dF-loa" firstAttribute="centerX" secondItem="h9S-PH-hIo" secondAttribute="centerX" id="kDy-D9-1Ld"/>
+                            <constraint firstItem="zCy-9h-zRd" firstAttribute="top" secondItem="rC0-2W-Q92" secondAttribute="bottom" constant="36" id="sT4-Cm-QyP"/>
+                            <constraint firstItem="PWb-Iv-dYe" firstAttribute="centerX" secondItem="h9S-PH-hIo" secondAttribute="centerX" id="ydR-JF-qmD"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Theater" id="knG-bk-V9f">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="yLr-WP-ZCa">
+                            <connections>
+                                <segue destination="rXe-A3-tAn" kind="unwind" identifier="EditTheater-Save" unwindAction="unwindToMyTheatersViewControllerWithSegue:" id="isX-OW-6by"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="theaterAddressTextField" destination="3IZ-GD-jSb" id="sxg-co-Vb6"/>
+                        <outlet property="theaterNameTextField" destination="rC0-2W-Q92" id="IwR-5h-cV1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GSQ-dT-Ufp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="rXe-A3-tAn" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1774" y="1570"/>
         </scene>
         <!--Theater Web View Controller-->
         <scene sceneID="g9f-nx-qc8">

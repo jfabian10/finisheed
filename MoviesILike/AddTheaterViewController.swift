@@ -8,29 +8,27 @@
 
 import UIKit
 
-protocol AddTheaterViewControllerProtocol {
-    func addTheaterViewController(_ controller: AddTheaterViewController, didFinishWithSave save: Bool)
-}
-
 class AddTheaterViewController: UIViewController {
     
-    var delegate: AddTheaterViewControllerProtocol?
-
     @IBOutlet var theaterNameTextField: UITextField!
     
     @IBOutlet var theaterAddressTextField: UITextField!
     
-    var saveButton = UIBarButtonItem()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "Add Theater"
-        
-        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(AddTheaterViewController.save(_:)))
-        self.navigationItem.rightBarButtonItem = saveButton
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        /*
+         -------------------------------------------------------------------
+         Force this view to be displayed only in Portrait device orientation
+         -------------------------------------------------------------------
+         */
+        let portraitValue = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(portraitValue, forKey: "orientation")
+        UIViewController.attemptRotationToDeviceOrientation()
+    }
+    
     /*
      ---------------------------------
      MARK: - Keyboard Handling Methods
@@ -44,11 +42,8 @@ class AddTheaterViewController: UIViewController {
         sender.resignFirstResponder()
     }
     
-    @IBAction func buttonTapped(saveButton sender: UIButton) {
-        self.performSegue(withIdentifier: "unwindToTheaters", sender: self)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(touches.first)
         if let touch = touches.first {
             if theaterNameTextField.isFirstResponder && (touch.view != theaterNameTextField) {
                 theaterNameTextField.resignFirstResponder()
@@ -61,21 +56,10 @@ class AddTheaterViewController: UIViewController {
         super.touchesBegan(touches, with: event)
     }
     
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    func save(_ sender: AnyObject) {
-        delegate?.addTheaterViewController(self, didFinishWithSave: true)
-    }
-    
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
 }

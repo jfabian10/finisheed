@@ -12,32 +12,34 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBOutlet var pickerView: UIPickerView!
     
+    @IBOutlet var theatersLocationInput: UITextField!
     @IBOutlet var theaterMapTypeSegmentedControl: UISegmentedControl!
     
-    var dict_Theater: NSMutableDictionary = NSMutableDictionary()
+    let applicationDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var arrayTheaterNames = [String]()
     
     // Data to pass for map
-    var dataObjectToPass: [String] = ["googleMapQuery", "theaterPlace"]
+    var dataMapQueryToPass: [String] = ["googleMapQuery", "theaterPlace"]
+    
+    var dataTheaterToPass: [String] = ["theterName", "theaterAddress"]
     
     // Instance variable to hold the absolute file path for the maps.html file
     var mapsHtmlFilePath: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        let editButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(MyTheatersViewController.editTheater(_:)))
+        self.navigationItem.leftBarButtonItem = editButton
         
         let addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(MyTheatersViewController.addTheater(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         
-        let theaterPlistPath = Bundle.main.path(forResource: "MyFavoriteTheaters", ofType: "plist")
-        let dictTheaterFromFileInBundle: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: theaterPlistPath!)
-        
-        dict_Theater = dictTheaterFromFileInBundle!
-        
-        arrayTheaterNames = dict_Theater.allKeys as! [String]
+        arrayTheaterNames = applicationDelegate.dict_Theaters.allKeys as! [String]
         arrayTheaterNames.sort { $0 < $1 }
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTheatersViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
         
         let numberOfTheaters = arrayTheaterNames.count
         let numberOfRowToShow = Int(numberOfTheaters/2)
@@ -49,6 +51,10 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         mapsHtmlFilePath = Bundle.main.path(forResource: "maps", ofType: "html")
     }
     
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -56,6 +62,16 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     func addTheater(_ sender: AnyObject) {
         performSegue(withIdentifier: "AddTheater", sender: self)
+    }
+    
+    func editTheater(_ sender: AnyObject) {
+        let selectedRowNumber = pickerView.selectedRow(inComponent: 0)
+        let theaterName = arrayTheaterNames[selectedRowNumber]
+        let theaterAddress = applicationDelegate.dict_Theaters[theaterName]
+        dataTheaterToPass[0] = theaterName
+        dataTheaterToPass[1] = theaterAddress as! String
+        
+        performSegue(withIdentifier: "EditTheater", sender: self)
     }
     
     @IBAction func setMapType(_ sender: AnyObject) {
@@ -78,8 +94,8 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
             return
         }
         
-        dataObjectToPass[0] = googleMapQuery
-        dataObjectToPass[1] = theaterName
+        dataMapQueryToPass[0] = googleMapQuery
+        dataMapQueryToPass[1] = theaterName
         
         performSegue(withIdentifier: "theaterOnMap", sender: self)
     }
@@ -96,20 +112,64 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return arrayTheaterNames[row]
     }
     
-    @IBAction func unwindToTheaters(segue: UIStoryboardSegue) {
+    @IBAction func unwindToMyTheatersViewController (segue: UIStoryboardSegue) {
+        if segue.identifier == "AddTheater-Save" {
+            let controller: AddTheaterViewController = segue.source as! AddTheaterViewController
+            
+            let theaterNameEntered: String = controller.theaterNameTextField.text!
+            let theaterAddressEntered: String = controller.theaterAddressTextField.text!
+            
+            checkTheaterExistence(theaterName: theaterNameEntered, theaterAddress: theaterAddressEntered)
+        }
         
+        if segue.identifier == "EditTheater-Save" {
+            let controller: EditTheaterViewController = segue.source as! EditTheaterViewController
+            
+            let theaterNameEdited: String = controller.theaterNameTextField.text!
+            let theaterAddressEdited: String = controller.theaterAddressTextField.text!
+            
+            checkTheaterExistence(theaterName: theaterNameEdited, theaterAddress: theaterAddressEdited)
+        }
+        
+        if segue.identifier == "DeleteTheater" {
+            let controller: EditTheaterViewController = segue.source as! EditTheaterViewController
+            
+            let theaterNameDelete: String = controller.theaterNameTextField.text!
+            applicationDelegate.dict_Theaters.removeObject(forKey: theaterNameDelete)
+        }
+        
+        arrayTheaterNames = applicationDelegate.dict_Theaters.allKeys as! [String]
+        
+        arrayTheaterNames.sort { $0 < $1 }
+        
+        //NOT SURE IF THIS WORKS
+        print(applicationDelegate.dict_Theaters)
+        pickerView.reloadAllComponents()
+    }
+    
+    func checkTheaterExistence(theaterName: String, theaterAddress: String) {
+        if arrayTheaterNames.contains(theaterName) {
+            let theater_address: AnyObject? = applicationDelegate.dict_Theaters[theaterName] as AnyObject
+            applicationDelegate.dict_Theaters.setValue(theater_address, forKey: theaterName)
+        } else {
+            applicationDelegate.dict_Theaters.setObject(theaterAddress, forKey: theaterName as NSCopying)
+        }
     }
 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "theaterOnMap" {
-            let theaterMap: TheaterWebViewController = segue.destination as! TheaterWebViewController
+        if segue.identifier == "webViewTheater" {
+            let theaterWebView: TheaterWebViewController = segue.destination as! TheaterWebViewController
             
-            theaterMap.theaterSelectedData = dataObjectToPass
+            theaterWebView.theaterSelectedData = dataMapQueryToPass
+        }
+        
+        if segue.identifier == "EditTheater" {
+            let editTheater: EditTheaterViewController = segue.destination as! EditTheaterViewController
+            
+            editTheater.theaterSelectedData = dataTheaterToPass
         }
     }
- 
-
 }

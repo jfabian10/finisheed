@@ -19,6 +19,7 @@
 		6C2165551DDAA66700E1E2F9 /* TheaterWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2165541DDAA66700E1E2F9 /* TheaterWebViewController.swift */; };
 		6C21655B1DDAAA4F00E1E2F9 /* EditTheaterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C21655A1DDAAA4F00E1E2F9 /* EditTheaterViewController.swift */; };
 		6C21655D1DDAB35C00E1E2F9 /* maps.html in Resources */ = {isa = PBXBuildFile; fileRef = 6C21655C1DDAB35C00E1E2F9 /* maps.html */; };
+		6CC01B961DDC0D6300FF16E8 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC01B951DDC0D6300FF16E8 /* PlistManager.swift */; };
 		B786C56A1DD6907D00AF9E2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B786C5691DD6907D00AF9E2B /* AppDelegate.swift */; };
 		B786C5711DD6907D00AF9E2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B786C56F1DD6907D00AF9E2B /* Main.storyboard */; };
 		B786C5731DD6907D00AF9E2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B786C5721DD6907D00AF9E2B /* Assets.xcassets */; };
@@ -98,6 +99,7 @@
 		6C2165541DDAA66700E1E2F9 /* TheaterWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TheaterWebViewController.swift; sourceTree = "<group>"; };
 		6C21655A1DDAAA4F00E1E2F9 /* EditTheaterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTheaterViewController.swift; sourceTree = "<group>"; };
 		6C21655C1DDAB35C00E1E2F9 /* maps.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = maps.html; sourceTree = "<group>"; };
+		6CC01B951DDC0D6300FF16E8 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		B786C5661DD6907D00AF9E2B /* MoviesILike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoviesILike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B786C5691DD6907D00AF9E2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B786C5701DD6907D00AF9E2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				6C21655C1DDAB35C00E1E2F9 /* maps.html */,
 				B79C271A1DD79D3F00DBDC90 /* MyFavoriteMovies.plist */,
 				B79C271B1DD79D3F00DBDC90 /* MyFavoriteTheaters.plist */,
+				6CC01B951DDC0D6300FF16E8 /* PlistManager.swift */,
 				B786C5691DD6907D00AF9E2B /* AppDelegate.swift */,
 				B79C271F1DD7AEA600DBDC90 /* MovieTableViewController.swift */,
 				B7A6A22E1DD92CB3009A6714 /* MovieVideoViewController.swift */,
@@ -495,6 +498,7 @@
 				6C2165531DDAA65800E1E2F9 /* AddTheaterViewController.swift in Sources */,
 				B79C27201DD7AEA600DBDC90 /* MovieTableViewController.swift in Sources */,
 				6C2165551DDAA66700E1E2F9 /* TheaterWebViewController.swift in Sources */,
+				6CC01B961DDC0D6300FF16E8 /* PlistManager.swift in Sources */,
 				B786C56A1DD6907D00AF9E2B /* AppDelegate.swift in Sources */,
 				6C21655B1DDAAA4F00E1E2F9 /* EditTheaterViewController.swift in Sources */,
 				6C1700DC1DDA9E9F007FA259 /* MyTheatersViewController.swift in Sources */,
@@ -838,6 +842,7 @@
 				6C2165481DDAA29C00E1E2F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6C21654A1DDAA29C00E1E2F9 /* Build configuration list for PBXNativeTarget "FrameworkTests" */ = {
 			isa = XCConfigurationList;
@@ -846,6 +851,7 @@
 				6C21654C1DDAA29C00E1E2F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B786C5611DD6907D00AF9E2B /* Build configuration list for PBXProject "MoviesILike" */ = {
 			isa = XCConfigurationList;
