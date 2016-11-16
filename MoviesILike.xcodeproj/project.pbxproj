@@ -198,6 +198,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6C68FBE61DDC7083003F5069 /* Genres View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Genres View";
+			sourceTree = "<group>";
+		};
 		B786C55D1DD6907D00AF9E2B = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +241,7 @@
 				B7A6A22E1DD92CB3009A6714 /* MovieVideoViewController.swift */,
 				B79C27211DD7AEFD00DBDC90 /* AddMovieViewController.swift */,
 				6C1700DA1DDA9E7B007FA259 /* My Theaters */,
+				6C68FBE61DDC7083003F5069 /* Genres View */,
 				B786C56F1DD6907D00AF9E2B /* Main.storyboard */,
 				B786C5721DD6907D00AF9E2B /* Assets.xcassets */,
 				B786C5741DD6907D00AF9E2B /* LaunchScreen.storyboard */,

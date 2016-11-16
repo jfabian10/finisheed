@@ -8,21 +8,26 @@
 
 import UIKit
 
-class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIScrollViewDelegate, UITextFieldDelegate {
 
     @IBOutlet var pickerView: UIPickerView!
-    
+    // Instance variable holding the object reference of the Scroll View object
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var theatersLocationInput: UITextField!
     @IBOutlet var theaterMapTypeSegmentedControl: UISegmentedControl!
     
     let applicationDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
     
+    // Instance variable to hold the object reference of a Text Field object
+    var activeTextField: UITextField?
+    
     var arrayTheaterNames = [String]()
     
     // Data to pass for map
-    var dataMapQueryToPass: [String] = ["googleMapQuery", "theaterPlace"]
+    var dataToPassWeb: [String] = ["googleQuery", "theaterPlace"]
+    var googleQuery: String = ""
     
-    var dataTheaterToPass: [String] = ["theterName", "theaterAddress"]
+    var dataTheaterToPass: [String] = ["theaterName", "theaterAddress"]
     
     // Instance variable to hold the absolute file path for the maps.html file
     var mapsHtmlFilePath: String?
@@ -38,9 +43,6 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         arrayTheaterNames = applicationDelegate.dict_Theaters.allKeys as! [String]
         arrayTheaterNames.sort { $0 < $1 }
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(MyTheatersViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
         let numberOfTheaters = arrayTheaterNames.count
         let numberOfRowToShow = Int(numberOfTheaters/2)
         
@@ -48,11 +50,89 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         theaterMapTypeSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
         
+        // "A NotificationCenter object (or simply, notification center) provides a
+        // mechanism for broadcasting information within a program." [Apple]
+        
+        // Obtain the object reference of the default notification center
+        let notificationCenter = NotificationCenter.default
+        
+        // Add self as an Observer for the "Keyboard Will Show" notification by specifying
+        // the name of the method to invoke upon that notification.
+        notificationCenter.addObserver(self,
+                                       selector:   #selector(MyTheatersViewController.keyboardWillShow(_:)),    // <-- Call this method upon Keyboard Will SHOW Notification
+            name:       NSNotification.Name.UIKeyboardWillShow,
+            object:     nil)
+        
         mapsHtmlFilePath = Bundle.main.path(forResource: "maps", ofType: "html")
     }
     
-    func dismissKeyboard() {
-        view.endEditing(true)
+    /*
+     ------------------------------------
+     MARK: - UITextField Delegate Methods
+     ------------------------------------
+     */
+    
+    // This method is called when the user taps inside a text field
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeTextField = textField
+    }
+    
+    // This method is called upon the "Keyboard Will Show" notification
+    func keyboardWillShow(_ sender: Notification) {
+        
+        // "userInfo, the user information dictionary stores any additional
+        // objects that objects receiving the notification might use." [Apple]
+        let info: NSDictionary = (sender as NSNotification).userInfo! as NSDictionary
+        
+        /*
+         Key     = UIKeyboardFrameBeginUserInfoKey
+         Value   = an NSValue object containing a CGRect that identifies the start frame of the keyboard in screen coordinates.
+         */
+        let value: NSValue = info.value(forKey: UIKeyboardFrameBeginUserInfoKey) as! NSValue
+        
+        // Obtain the size of the keyboard
+        let keyboardSize: CGSize = value.cgRectValue.size
+        
+        // Create Edge Insets for the view.
+        let contentInsets: UIEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0)
+        
+        // Set the distance that the content view is inset from the enclosing scroll view.
+        scrollView.contentInset = contentInsets
+        
+        // Set the distance the scroll indicators are inset from the edge of the scroll view.
+        scrollView.scrollIndicatorInsets = contentInsets
+        //-----------------------------------------------------------------------------------
+        // If active text field is hidden by keyboard, scroll the content up so it is visible
+        //-----------------------------------------------------------------------------------
+        
+        // Obtain the frame size of the View
+        var selfViewFrameSize: CGRect = self.view.frame
+        
+        // Subtract the keyboard height from the self's view height
+        // and set it as the new height of the self's view
+        selfViewFrameSize.size.height -= keyboardSize.height
+        
+        // Obtain the size of the active UITextField object
+        let activeTextFieldRect: CGRect? = activeTextField!.frame
+        
+        // Obtain the active UITextField object's origin (x, y) coordinate
+        let activeTextFieldOrigin: CGPoint? = activeTextFieldRect?.origin
+        
+        
+        if (!selfViewFrameSize.contains(activeTextFieldOrigin!)) {
+            
+            // If active UITextField object's origin is not contained within self's View Frame,
+            // then scroll the content up so that the active UITextField object is visible
+            
+            scrollView.scrollRectToVisible(activeTextFieldRect!, animated:true)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        // Set the segmented control to show no selection before the view appears
+        self.theaterMapTypeSegmentedControl.selectedSegmentIndex = UISegmentedControlNoSegment
     }
     
     override func didReceiveMemoryWarning() {
@@ -73,31 +153,51 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         performSegue(withIdentifier: "EditTheater", sender: self)
     }
+
+    @IBAction func backgroundTouch(_ sender: UIControl) {
+        
+        // Deactivate the Address Text Field object and remove the Keyboard
+        theatersLocationInput.resignFirstResponder()
+    }
+    
+    @IBAction func searchMovie(_ sender: AnyObject) {
+                // Obtain a new string in which all occurrences of space in the address are replaced by +
+                let locationEnteredWithNoSpaces = theatersLocationInput.text!.replacingOccurrences(of: " ", with: "+")
+        
+                googleQuery = "https://www.google.com/#q=movies+near+\(locationEnteredWithNoSpaces)"
+        
+                dataToPassWeb[0] = googleQuery
+                dataToPassWeb[1] = "Movies Playing"
+        
+                performSegue(withIdentifier: "webViewTheater", sender: self)
+    }
     
     @IBAction func setMapType(_ sender: AnyObject) {
-        var googleMapQuery: String = ""
-        
         let selectedRowNumber = pickerView.selectedRow(inComponent: 0)
         
         let theaterName = arrayTheaterNames[selectedRowNumber]
         
+        let addressTemp: String = applicationDelegate.dict_Theaters[theaterName] as! String
+        
+        let addressTrimmed = addressTemp.replacingOccurrences(of: " ", with: "+")
+        
         switch sender.selectedSegmentIndex {
         case 0: //RoadMap
-            googleMapQuery = mapsHtmlFilePath!
+            googleQuery = mapsHtmlFilePath! + "?place=" + addressTrimmed + "&zoom=16&maptype=ROADMAP"
         case 1: //SatelliteMap
-            googleMapQuery = mapsHtmlFilePath!
+            googleQuery = mapsHtmlFilePath! + "?place=" + addressTrimmed + "&zoom=16&maptype=SATELLITE"
         case 2: //HybridMap
-            googleMapQuery = mapsHtmlFilePath!
+            googleQuery = mapsHtmlFilePath! + "?place=" + addressTrimmed + "&zoom=16&maptype=HYBRID"
         case 3: //TerrainMap
-            googleMapQuery = mapsHtmlFilePath!
+            googleQuery = mapsHtmlFilePath! + "?place=" + addressTrimmed + "&zoom=16&maptype=TERRAIN"
         default:
             return
         }
 
-        dataMapQueryToPass[0] = googleMapQuery
-        dataMapQueryToPass[1] = theaterName
+        dataToPassWeb[0] = googleQuery
+        dataToPassWeb[1] = theaterName
         
-        performSegue(withIdentifier: "theaterOnMap", sender: self)
+        performSegue(withIdentifier: "webViewTheater", sender: self)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -149,7 +249,6 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
             let dict = applicationDelegate.dict_Theaters
             dict[theaterName] = theaterAddress
             applicationDelegate.dict_Theaters = dict
-            //applicationDelegate.dict_Theaters.setObject(theaterAddress, forKey: theaterName as NSCopying)
     }
 
     // MARK: - Navigation
@@ -159,7 +258,7 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if segue.identifier == "webViewTheater" {
             let theaterWebView: TheaterWebViewController = segue.destination as! TheaterWebViewController
             
-            theaterWebView.theaterSelectedData = dataMapQueryToPass
+            theaterWebView.dataObjectPassed = dataToPassWeb
         }
         
         if segue.identifier == "EditTheater" {

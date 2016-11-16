@@ -8,15 +8,23 @@
 
 import UIKit
 
-class TheaterWebViewController: UIViewController {
+class TheaterWebViewController: UIViewController, UIWebViewDelegate {
 
+    @IBOutlet var webView: UIWebView!
     
-    var theaterSelectedData = [String]()
+    var dataObjectPassed = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let query = dataObjectPassed[0]
+        self.title = dataObjectPassed[1]
+        print(query)
+        let url: URL? = URL(string: query)
+        
+        let request = URLRequest(url: url!)
 
-        // Do any additional setup after loading the view.
+        webView.loadRequest(request)
     }
 
     override func didReceiveMemoryWarning() {
