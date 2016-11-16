@@ -93,7 +93,7 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         default:
             return
         }
-        
+
         dataMapQueryToPass[0] = googleMapQuery
         dataMapQueryToPass[1] = theaterName
         
@@ -142,18 +142,14 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         
         arrayTheaterNames.sort { $0 < $1 }
         
-        //NOT SURE IF THIS WORKS
-        print(applicationDelegate.dict_Theaters)
         pickerView.reloadAllComponents()
     }
     
     func checkTheaterExistence(theaterName: String, theaterAddress: String) {
-        if arrayTheaterNames.contains(theaterName) {
-            let theater_address: AnyObject? = applicationDelegate.dict_Theaters[theaterName] as AnyObject
-            applicationDelegate.dict_Theaters.setValue(theater_address, forKey: theaterName)
-        } else {
-            applicationDelegate.dict_Theaters.setObject(theaterAddress, forKey: theaterName as NSCopying)
-        }
+            let dict = applicationDelegate.dict_Theaters
+            dict[theaterName] = theaterAddress
+            applicationDelegate.dict_Theaters = dict
+            //applicationDelegate.dict_Theaters.setObject(theaterAddress, forKey: theaterName as NSCopying)
     }
 
     // MARK: - Navigation

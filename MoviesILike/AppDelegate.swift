@@ -14,54 +14,90 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var dict_Movie_Genres: NSMutableDictionary = NSMutableDictionary()
     var dict_Theaters: NSMutableDictionary = NSMutableDictionary()
-
+    
+    var moviesPlist = "MyFavoriteMovies"
+    var theatersPlist = "MyFavoriteTheaters"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        
-        let documentDirectoryPath = paths[0] as String
-        // Add the plist filename to the document directory path to obtain an absolute path to the plist filename
-        
-        let plistFilePathInDocumentDirectory = documentDirectoryPath + "/MyFavoriteMovies.plist"
-        
-        let plistTheatersFilePathInDocumentDirectory = documentDirectoryPath + "/MyFavoriteTheaters.plist"
-        /*
-         
-         NSMutableDictionary manages an *unordered* collection of mutable (modifiable) key-value pairs.
-         
-         Instantiate an NSMutableDictionary object and initialize it with the contents of the CountryCities.plist file.
-         */
-        
-        let dictionaryFromFile: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistFilePathInDocumentDirectory)
-
-        let dictionaryTheatersFromFile: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistTheatersFilePathInDocumentDirectory)
-        
-        if let dictionaryFromFileInDocumentDirectory = dictionaryFromFile {
-            dict_Movie_Genres = dictionaryFromFileInDocumentDirectory
-        } else {
-            
-            //  MyFavoriteMovies.plist does not exist in the Document directory; Read it from the main bundle.
-            // Obtain the file path to the plist file in the mainBundle (project folder)
-            
-            let plistFilePathInMainBundle = Bundle.main.path(forResource: "MyFavoriteMovies", ofType: "plist")
-
-            // Instantiate an NSMutableDictionary object and initialize it with the contents of the  MyFavoriteMovies.plist file.
-            
-            let dictionaryFromFileInMainBundle: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistFilePathInMainBundle!)
-            
-            // Store the object reference into the instance variable
-            
-            dict_Movie_Genres = dictionaryFromFileInMainBundle!
+        //Movies
+        var sourceMoviesPath:String? {
+            guard let path = Bundle.main.path(forResource: moviesPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
         }
         
-        if let dictionaryFromFileInDocumentDirectory = dictionaryTheatersFromFile {
-            dict_Theaters = dictionaryFromFileInDocumentDirectory
+        var destMoviesPath:String? {
+            guard sourceMoviesPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(moviesPlist).plist")
+        }
+        
+        //Theaters
+        var sourceTheatersPath:String? {
+            guard let path = Bundle.main.path(forResource: theatersPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
+        
+        var destTheatersPath:String? {
+            guard sourceTheatersPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(theatersPlist).plist")
+        }
+        
+        let fileManager = FileManager.default
+
+        //MOVIES
+        guard let sourceMovies = sourceMoviesPath else { return false }
+        guard let destinationMovies = destMoviesPath else { return false }
+        
+        guard fileManager.fileExists(atPath: sourceMovies) else { return false }
+        
+        if !fileManager.fileExists(atPath: destinationMovies) {
+            do {
+                try fileManager.copyItem(atPath: sourceMovies, toPath: destinationMovies)
+                if fileManager.fileExists(atPath: destMoviesPath!) {
+                    dict_Movie_Genres = NSMutableDictionary(contentsOfFile: destMoviesPath!)!
+                } else {
+                    return false
+                }
+            } catch let error as NSError {
+                print("[PlistManager] Unable to copy file. ERROR: \(error.localizedDescription)")
+                return false
+            }
         } else {
-            let theaterPlistPath = Bundle.main.path(forResource: "MyFavoriteTheaters", ofType: "plist")
-            let dictTheaterFromFileInBundle: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: theaterPlistPath!)
+            dict_Movie_Genres = NSMutableDictionary(contentsOfFile: destMoviesPath!)!
+        }
+
+        //THEATERS
+        guard let sourceTheaters = sourceTheatersPath else { return false }
+        guard let destinationTheaters = destTheatersPath else { return false }
+        
+        guard fileManager.fileExists(atPath: sourceTheaters) else { return false }
+        
+        if !fileManager.fileExists(atPath: destinationTheaters) {
             
-            dict_Theaters = dictTheaterFromFileInBundle!
+            do {
+                try fileManager.copyItem(atPath: sourceTheaters, toPath: destinationTheaters)
+                
+                if fileManager.fileExists(atPath: destTheatersPath!) {
+                    dict_Theaters = NSMutableDictionary(contentsOfFile: destTheatersPath!)!
+                } else {
+                    return false
+                }
+            } catch let error as NSError {
+                print("[PlistManager] Unable to copy file. ERROR: \(error.localizedDescription)")
+                return false
+            }
+        } else {
+            dict_Theaters = NSMutableDictionary(contentsOfFile: destTheatersPath!)!
         }
         
         return true
@@ -75,14 +111,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          locked, and gains focus when the device is unlocked." [Apple]
          */
         
-        let plistFilePathInMainBundle = Bundle.main.path(forResource: "MyFavoriteMovies", ofType: "plist")
-
-        // Write the NSMutableDictionary to the file in the Document directory
-        dict_Movie_Genres.write(toFile: plistFilePathInMainBundle!, atomically: true)
+        //Movies
+        var sourceMoviesPath:String? {
+            guard let path = Bundle.main.path(forResource: moviesPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
         
-        let theaterPlistPath = Bundle.main.path(forResource: "MyFavoriteTheaters", ofType: "plist")
+        var destMoviesPath:String? {
+            guard sourceMoviesPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(moviesPlist).plist")
+        }
         
-        dict_Theaters.write(toFile: theaterPlistPath!, atomically: true)
+        //Theaters
+        var sourceTheatersPath:String? {
+            guard let path = Bundle.main.path(forResource: theatersPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
+        var destTheatersPath:String? {
+            guard sourceTheatersPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(theatersPlist).plist")
+        }
+        
+        // Write the NSMutableDictionary to the CountryCities.plist file in the Document directory
+        dict_Movie_Genres.write(toFile: destMoviesPath!, atomically: true)
+        
+        // Write the NSMutableDictionary to the CountryCities.plist file in the Document directory
+        dict_Theaters.write(toFile: destTheatersPath!, atomically: true)
         /*
          The flag "atomically" specifies whether the file should be written atomically or not.
          
