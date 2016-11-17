@@ -257,7 +257,7 @@ class MovieGenresViewController: UIViewController, UIScrollViewDelegate, UITable
     // Asks the data source to return the number of rows in a section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let moviesForSelectedGenre: NSDictionary = applicationDelegate.dict_Movie_Genres[selectedMovieGenre] as! NSDictionary
-        return moviesForSelectedGenre.count - 1
+        return moviesForSelectedGenre.count
     }
     
     // Asks the data source to return a cell to insert in a particular table view location
@@ -272,8 +272,7 @@ class MovieGenresViewController: UIViewController, UIScrollViewDelegate, UITable
         // Obtain the object reference of a reusable table view cell object instantiated under the identifier
         // AutoTableViewCell, which was specified in the storyboard
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "MovieGenreTablewViewCell") as UITableViewCell!
-        
-        let strRowNum = String(rowNumber + 1)
+        let strRowNum = String(rowNumber+1)
         let arrMovie = moviesForSelectedGenre[strRowNum] as! [String]
         // Set the label text of the cell to be the auto model name.
         // We add 1 to row number because the first item is the name of the logo image file.

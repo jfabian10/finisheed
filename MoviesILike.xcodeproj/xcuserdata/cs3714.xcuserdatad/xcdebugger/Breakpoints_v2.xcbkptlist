@@ -6,22 +6,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -183,11 +167,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "unwindToMovieTableViewController(segue:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -199,11 +183,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242">
+            startingLineNumber = "297"
+            endingLineNumber = "297"
+            landmarkName = "MovieTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -213,11 +199,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230">
+            startingLineNumber = "285"
+            endingLineNumber = "285"
+            landmarkName = "MovieTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -227,11 +215,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240">
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "MovieTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -241,11 +231,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237">
+            startingLineNumber = "292"
+            endingLineNumber = "292"
+            landmarkName = "MovieTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -255,11 +247,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "unwindToMovieTableViewController(segue:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -271,11 +263,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500886062.322616"
+            timestampString = "501073862.023827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "tableView(_:moveRowAt:to:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -287,13 +279,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MoviesILike/MovieTableViewController.swift"
-            timestampString = "500885430.504517"
+            timestampString = "501073534.263446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "tableView(_:commit:forRowAt:)"
-            landmarkType = "7">
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "MovieTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

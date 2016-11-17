@@ -3,7 +3,7 @@
 //  MoviesILike
 //
 //  Created by CS3714 on 11/12/16.
-//  Copyright © 2016 Jesus Fabian. All rights reserved. yyy
+//  Copyright © 2016 Jesus Fabian. All rights reserved. LETS GO HOME !!!!!
 //
 
 import UIKit
@@ -51,44 +51,43 @@ class MovieTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             //obtain section number
-            //let sectionNumber = (indexPath as NSIndexPath).section
-            //obtain row number
-            //let rowNumber = (indexPath as NSIndexPath).row
+            let sectionNumber = (indexPath as NSIndexPath).section
+           // obtain row number
+            var rowNumber = (indexPath as NSIndexPath).row
             
             let movieGenreToDelete = movieGenreList[(indexPath as NSIndexPath).section]
-            //declares it as an NSMutableDictionary
-            //let movies: NSMutableDictionary! = applicationDelegate.dict_Movie_Genres[movieGenreToDelete]! as? NSMutableDictionary
-            let movies: AnyObject? = applicationDelegate.dict_Movie_Genres[movieGenreToDelete]! as AnyObject
-            
-            //declares it like a Swift dictionary
-            let dict_movies = movies as! NSMutableDictionary!
-            
-            var movieNameOG = [String]()
-            movieNameOG = dict_movies?.allKeys as! [String]
-
-            movieNameOG.sort()
-
-            let dict_temp = NSMutableDictionary() //empty
-            var originalDictCounter = 0
-            
-            ///we copy everything from original dictionary to temp skipping over the entry we want to delete
-            while (originalDictCounter != movieNameOG.count){
-                if (originalDictCounter != indexPath.row){
-                    
-                    dict_temp.setObject(movieNameOG[originalDictCounter], forKey: dict_movies?[originalDictCounter] as! NSCopying)
-                }
-                originalDictCounter += 1
+            let moviesOfGenre: NSMutableDictionary = (applicationDelegate.dict_Movie_Genres[movieGenreToDelete]! as? NSMutableDictionary)!
+            while (moviesOfGenre["\(rowNumber + 2)"] != nil) {
+                moviesOfGenre.setValue(moviesOfGenre["\(rowNumber + 2)"], forKey: "\(rowNumber + 1)")
+                rowNumber = rowNumber + 1;
             }
+            moviesOfGenre.removeObject(forKey: "\(rowNumber + 1)");
+            //resort dictioanry
+            var movies = [String]()
+            movies = moviesOfGenre.allKeys as! [String]
+            movies.sort {$0 < $1}
             
-            applicationDelegate.dict_Movie_Genres.setValue(dict_temp, forKey: movieGenreToDelete)
-            movieTableView.reloadData()
         }
+         movieTableView.reloadData()
+        
     }
     
     //movement of movie allowed witin genre
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
-        //let movieGenreBeingEdited = movieGenreList[(fromIndexPath as NSIndexPath).section]
-        //let movies: AnyObject? = applicationDelegate.dict_Movie_Genres[movieGenreBeingEdited]! as AnyObject
+        let sectionNumber = (fromIndexPath as NSIndexPath).section
+        let fromRow = (fromIndexPath as NSIndexPath).row
+        
+        let toRow = (toIndexPath as NSIndexPath).row
+
+        
+        let movieGenreToEdit = movieGenreList[sectionNumber]
+        let moviesOfGenre: NSMutableDictionary = (applicationDelegate.dict_Movie_Genres[movieGenreToEdit]! as? NSMutableDictionary)!
+
+        let tempFrom = moviesOfGenre["\(fromRow + 1)"] as! [String]
+        let tempTo = moviesOfGenre["\(toRow + 1)"] as! [String]
+        
+        moviesOfGenre.setValue(tempTo, forKey: "\(fromRow + 1)")
+        moviesOfGenre.setValue(tempFrom, forKey: "\(toRow + 1)")
     }
     
     // Allow Movement of Rows (movies) within their genre
@@ -114,6 +113,66 @@ class MovieTableViewController: UITableViewController{
         let givenMovieGenre = movieGenreList[section]
         let movies: NSMutableDictionary! = applicationDelegate.dict_Movie_Genres[givenMovieGenre]! as? NSMutableDictionary
         return movies.count;
+    }
+    
+    
+    //--------------------------
+    
+    // Movement of City Approval
+    
+    //--------------------------
+    
+    
+    
+    // This method is invoked when the user attempts to move a row (city)
+    
+    override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        
+        
+        
+        let countryFrom = movieGenreList[(sourceIndexPath as NSIndexPath).section]
+        
+        let countryTo = movieGenreList[(proposedDestinationIndexPath as NSIndexPath).section]
+        
+        if countryFrom != countryTo {
+            
+            
+            
+            // The user attempts to move a city from one country to another, which is prohibited
+            
+            
+            
+            /*
+             
+             Create a UIAlertController object; dress it up with title, message, and preferred style;
+             
+             and store its object reference into local constant alertController
+             
+             */
+            
+            let alertController = UIAlertController(title: "Move Not Allowed!",
+                                                    
+                                                    message: "Order cities according to your liking only within the same country!",
+                                                    
+                                                    preferredStyle: UIAlertControllerStyle.alert)
+            
+            
+            
+            // Create a UIAlertAction object and add it to the alert controller
+            
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        // Present the alert controller by calling the presentViewController method
+            
+            present(alertController, animated: true, completion: nil)
+            return sourceIndexPath  // The row (city) movement is denied
+            
+        }
+            
+        else {
+            
+            return proposedDestinationIndexPath  // The row (city) movement is approved
+            
+        }
     }
     
     //loads all of the table view's cells
@@ -214,7 +273,4 @@ class MovieTableViewController: UITableViewController{
          }
         tableView.reloadData()
     }
-    
-    
-    
 }

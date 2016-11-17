@@ -113,6 +113,9 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         // and set it as the new height of the self's view
         selfViewFrameSize.size.height -= keyboardSize.height
         
+        if activeTextField != nil{
+            
+        
         // Obtain the size of the active UITextField object
         let activeTextFieldRect: CGRect? = activeTextField!.frame
         
@@ -126,6 +129,7 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
             // then scroll the content up so that the active UITextField object is visible
             
             scrollView.scrollRectToVisible(activeTextFieldRect!, animated:true)
+            }
         }
     }
     
@@ -169,7 +173,7 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 dataToPassWeb[0] = googleQuery
                 dataToPassWeb[1] = "Movies Playing"
         
-                performSegue(withIdentifier: "webViewTheater", sender: self)
+                performSegue(withIdentifier: "WebViewTheater", sender: self)
     }
     
     @IBAction func setMapType(_ sender: AnyObject) {
@@ -197,7 +201,7 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
         dataToPassWeb[0] = googleQuery
         dataToPassWeb[1] = theaterName
         
-        performSegue(withIdentifier: "webViewTheater", sender: self)
+        performSegue(withIdentifier: "WebViewTheater", sender: self)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -255,10 +259,10 @@ class MyTheatersViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "webViewTheater" {
-            let theaterWebView: TheaterWebViewController = segue.destination as! TheaterWebViewController
+        if segue.identifier == "WebViewTheater" {
+            let theaterWebVC: TheaterWebViewController = segue.destination as! TheaterWebViewController
             
-            theaterWebView.dataObjectPassed = dataToPassWeb
+            theaterWebVC.dataObjectPassed = dataToPassWeb
         }
         
         if segue.identifier == "EditTheater" {
