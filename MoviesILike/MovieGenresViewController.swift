@@ -2,7 +2,7 @@
 //  MovieGenresViewController.swift
 //  MoviesILike
 //
-//  Created by Luis Villavicencio  on 11/16/16.
+//  Created by Jesus Fabian on 11/16/16.
 //  Copyright © 2016 Jesus Fabian. All rights reserved.
 //
 
