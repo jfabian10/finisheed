@@ -67,19 +67,12 @@ class MovieTableViewController: UITableViewController{
             movieNameOG = dict_movies?.allKeys as! [String]
 
             movieNameOG.sort()
-            print(movieNameOG)
 
-            //print(dict_movies)
             let dict_temp = NSMutableDictionary() //empty
-            print(dict_movies?.value(forKey: "0"))
             var originalDictCounter = 0
-
-            //let arrMovies = dict_movies?.allValues as! [[String]]
-            print(dict_movies)
             
             ///we copy everything from original dictionary to temp skipping over the entry we want to delete
             while (originalDictCounter != movieNameOG.count){
-                print("\(indexPath.row)")
                 if (originalDictCounter != indexPath.row){
                     
                     dict_temp.setObject(movieNameOG[originalDictCounter], forKey: dict_movies?[originalDictCounter] as! NSCopying)
@@ -87,22 +80,15 @@ class MovieTableViewController: UITableViewController{
                 originalDictCounter += 1
             }
             
-             print("\(dict_temp)")
-            //updates plist to reflect changes
             applicationDelegate.dict_Movie_Genres.setValue(dict_temp, forKey: movieGenreToDelete)
-            movieTableView.reloadData() ////CRASHES HERE
+            movieTableView.reloadData()
         }
-        
-        }
-    
+    }
     
     //movement of movie allowed witin genre
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to toIndexPath: IndexPath) {
-        print("dd")
-        let movieGenreBeingEdited = movieGenreList[(fromIndexPath as NSIndexPath).section]
-        let movies: AnyObject? = applicationDelegate.dict_Movie_Genres[movieGenreBeingEdited]! as AnyObject
-        //print(movies)
- 
+        //let movieGenreBeingEdited = movieGenreList[(fromIndexPath as NSIndexPath).section]
+        //let movies: AnyObject? = applicationDelegate.dict_Movie_Genres[movieGenreBeingEdited]! as AnyObject
     }
     
     // Allow Movement of Rows (movies) within their genre
@@ -117,9 +103,7 @@ class MovieTableViewController: UITableViewController{
     //return number of sections in table view
     override func numberOfSections(in tableView: UITableView) -> Int {
         return movieGenreList.count
-        }
-    
-
+    }
     
     //set table view section to be genre name
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String {
@@ -143,7 +127,6 @@ class MovieTableViewController: UITableViewController{
         
         let movies: NSMutableDictionary! = applicationDelegate.dict_Movie_Genres[givenMovieGenre]! as? NSMutableDictionary
         var moviesForAGenre = movies![String(rowNumber + 1)] as! [String] ///name is deceptive...its actually the info array for a movie
-        //print(moviesForAGenre)
 
         cell.textLabel!.text = moviesForAGenre[0]
         cell.detailTextLabel?.text = moviesForAGenre[1]
@@ -151,7 +134,6 @@ class MovieTableViewController: UITableViewController{
         return cell
     }
     
-    ///when user taps cell
       override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         _ = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell", for: indexPath) as UITableViewCell
         let sectionNumber = (indexPath as NSIndexPath).section
@@ -160,15 +142,12 @@ class MovieTableViewController: UITableViewController{
         let movies: NSMutableDictionary! = applicationDelegate.dict_Movie_Genres[givenMovieGenre]! as? NSMutableDictionary
         var moviesForAGenre = movies![String(rowNumber + 1)] as! [String]
         
-       
         dataToPass[0] = moviesForAGenre[0]
         dataToPass[1] = moviesForAGenre[2]
-        //print(dataToPass[0])
-       // print(dataToPass[1])
+
         performSegue(withIdentifier: "ShowMovieTrailer", sender: self)
     }
     
-    ///prepares segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "ShowMovieTrailer" {
             let movietrailerWebViewController: MovieVideoViewController = segue.destination as! MovieVideoViewController
@@ -180,10 +159,8 @@ class MovieTableViewController: UITableViewController{
         }
     }
     
-    //the following extracts the text that was passed upstream after user click saved on AddMoviesVC
     @IBAction func unwindToMovieTableViewController(segue: UIStoryboardSegue){
         if segue.identifier == "AddMovie-Save"{
-            print("addmovie")
             let controller: AddMovieViewController = segue.source as! AddMovieViewController
             
             //if a textfield was left empty or rating not picked from seg control view will display 
@@ -220,12 +197,10 @@ class MovieTableViewController: UITableViewController{
             case 4:
                 movieRatingEntered = "NC-17"
             default:
-                print("no selection....")
+                movieRatingEntered = "None"
             }
             
-            //gets dictionary for entered movie genre
             let movies: NSMutableDictionary! = applicationDelegate.dict_Movie_Genres[movieGenreEntered]! as? NSMutableDictionary
-            //print(movies.count)
             
             //array for added movie
             var newMovieArray: [String] = [String]()
@@ -233,12 +208,9 @@ class MovieTableViewController: UITableViewController{
             newMovieArray.append(movieCastEntered)
             newMovieArray.append(movieYouTubeURLEntered)
             newMovieArray.append(movieRatingEntered)
-            //print(newMovieArray)
             
             //adds new movie to dictionary
             movies.setObject(newMovieArray, forKey: "\(movies.count + 1)" as NSCopying)
-            //print(movies)
-
          }
         tableView.reloadData()
     }
