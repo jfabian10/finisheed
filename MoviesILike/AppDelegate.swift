@@ -13,60 +13,151 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var dict_Movie_Genres: NSMutableDictionary = NSMutableDictionary()
-    //var dict_movieGenre = [String: AnyObject]()
+    var dict_Theaters: NSMutableDictionary = NSMutableDictionary()
     
-
+    var moviesPlist = "MyFavoriteMovies"
+    var theatersPlist = "MyFavoriteTheaters"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        
-        let documentDirectoryPath = paths[0] as String
-        // Add the plist filename to the document directory path to obtain an absolute path to the plist filename
-        
-        let plistFilePathInDocumentDirectory = documentDirectoryPath + "/MyFavoriteMovies.plist"
-        /*
-         
-         NSMutableDictionary manages an *unordered* collection of mutable (modifiable) key-value pairs.
-         
-         Instantiate an NSMutableDictionary object and initialize it with the contents of the CountryCities.plist file.
-         */
-        
-        let dictionaryFromFile: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistFilePathInDocumentDirectory)
-        
-        if let dictionaryFromFileInDocumentDirectory = dictionaryFromFile {
-            // MyFavoriteMovies.plist exists in the Document directory
-            
-            dict_Movie_Genres = dictionaryFromFileInDocumentDirectory
-            
-            
-            
-        } else {
-            
-            //  MyFavoriteMovies.plist does not exist in the Document directory; Read it from the main bundle.
-            // Obtain the file path to the plist file in the mainBundle (project folder)
-            
-            let plistFilePathInMainBundle = Bundle.main.path(forResource: "MyFavoriteMovies", ofType: "plist")
-
-            // Instantiate an NSMutableDictionary object and initialize it with the contents of the  MyFavoriteMovies.plist file.
-            
-            let dictionaryFromFileInMainBundle: NSMutableDictionary? = NSMutableDictionary(contentsOfFile: plistFilePathInMainBundle!)
-            
-            // Store the object reference into the instance variable
-            
-            dict_Movie_Genres = dictionaryFromFileInMainBundle!
-            
+        //Movies
+        var sourceMoviesPath:String? {
+            guard let path = Bundle.main.path(forResource: moviesPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
         }
         
-              return true
+        var destMoviesPath:String? {
+            guard sourceMoviesPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(moviesPlist).plist")
+        }
+        
+        //Theaters
+        var sourceTheatersPath:String? {
+            guard let path = Bundle.main.path(forResource: theatersPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
+        
+        var destTheatersPath:String? {
+            guard sourceTheatersPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(theatersPlist).plist")
+        }
+        
+        let fileManager = FileManager.default
+
+        //MOVIES
+        guard let sourceMovies = sourceMoviesPath else { return false }
+        guard let destinationMovies = destMoviesPath else { return false }
+        
+        guard fileManager.fileExists(atPath: sourceMovies) else { return false }
+        
+        if !fileManager.fileExists(atPath: destinationMovies) {
+            do {
+                try fileManager.copyItem(atPath: sourceMovies, toPath: destinationMovies)
+                if fileManager.fileExists(atPath: destMoviesPath!) {
+                    dict_Movie_Genres = NSMutableDictionary(contentsOfFile: destMoviesPath!)!
+                } else {
+                    return false
+                }
+            } catch let error as NSError {
+                print("[PlistManager] Unable to copy file. ERROR: \(error.localizedDescription)")
+                return false
+            }
+        } else {
+            dict_Movie_Genres = NSMutableDictionary(contentsOfFile: destMoviesPath!)!
+        }
+
+        //THEATERS
+        guard let sourceTheaters = sourceTheatersPath else { return false }
+        guard let destinationTheaters = destTheatersPath else { return false }
+        
+        guard fileManager.fileExists(atPath: sourceTheaters) else { return false }
+        
+        if !fileManager.fileExists(atPath: destinationTheaters) {
+            
+            do {
+                try fileManager.copyItem(atPath: sourceTheaters, toPath: destinationTheaters)
+                
+                if fileManager.fileExists(atPath: destTheatersPath!) {
+                    dict_Theaters = NSMutableDictionary(contentsOfFile: destTheatersPath!)!
+                } else {
+                    return false
+                }
+            } catch let error as NSError {
+                print("[PlistManager] Unable to copy file. ERROR: \(error.localizedDescription)")
+                return false
+            }
+        } else {
+            dict_Theaters = NSMutableDictionary(contentsOfFile: destTheatersPath!)!
+        }
+        
+        return true
     }
     
-    
-    
-
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        /*
+         "UIApplicationWillResignActiveNotification is posted when the app is no longer active and loses focus.
+         An app is active when it is receiving events. An active app can be said to have focus.
+         It gains focus after being launched, loses focus when an overlay window pops up or when the device is
+         locked, and gains focus when the device is unlocked." [Apple]
+         */
+        
+        //Movies
+        var sourceMoviesPath:String? {
+            guard let path = Bundle.main.path(forResource: moviesPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
+        
+        var destMoviesPath:String? {
+            guard sourceMoviesPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(moviesPlist).plist")
+        }
+        
+        //Theaters
+        var sourceTheatersPath:String? {
+            guard let path = Bundle.main.path(forResource: theatersPlist, ofType: "plist") else {
+                return .none
+            }
+            return path
+        }
+        var destTheatersPath:String? {
+            guard sourceTheatersPath != .none else {
+                return .none
+            }
+            let dir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+            return (dir as NSString).appendingPathComponent("\(theatersPlist).plist")
+        }
+        
+        // Write the NSMutableDictionary to the CountryCities.plist file in the Document directory
+        dict_Movie_Genres.write(toFile: destMoviesPath!, atomically: true)
+        
+        // Write the NSMutableDictionary to the CountryCities.plist file in the Document directory
+        dict_Theaters.write(toFile: destTheatersPath!, atomically: true)
+        /*
+         The flag "atomically" specifies whether the file should be written atomically or not.
+         
+         If flag atomically is TRUE, the dictionary is first written to an auxiliary file, and
+         then the auxiliary file is renamed to path plistFilePathInDocumentDirectory.
+         
+         If flag atomically is FALSE, the dictionary is written directly to path plistFilePathInDocumentDirectory.
+         This is a bad idea since the file can be corrupted if the system crashes during writing.
+         
+         The TRUE option guarantees that the file will not be corrupted even if the system crashes during writing.
+         */
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -85,7 +176,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
 }
 
